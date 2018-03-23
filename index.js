@@ -43,8 +43,8 @@ app.post('/random-reviewer', function (request, response) {
             });
         } else if(reviewers.length === 1){
             response.send({
-                response_type: "in_channel",
-                text: reviewers[0] + " you've been nominated!"
+                response_type: "ephemeral",
+                text: "That's not very democratic of you, give someone else a chance!"
             })
         } else {
             let rand = Math.floor(Math.random() * reviewers.length);
