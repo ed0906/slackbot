@@ -20,7 +20,8 @@ app.post('/random-reviewer', function (request, response) {
             text = text.substring(1, text.length-1);
         }
 
-        let components = text.split(",");
+        let components = text.split(",").map(c => c.trim());
+        console.log(components);
         let reviewers = Array.from(new Set(components));
 
         if(components.length !== reviewers.length) {
@@ -36,13 +37,13 @@ app.post('/random-reviewer', function (request, response) {
         } else if(reviewers.length === 1){
             response.send({
                 response_type: "in_channel",
-                text: reviewers[0].trim() + " you've been nominated!"
+                text: reviewers[0] + " you've been nominated!"
             })
         } else {
             let rand = Math.floor(Math.random() * reviewers.length);
             response.send({
                 response_type: "in_channel",
-                text: reviewers[rand].trim() + " you've been nominated!"
+                text: reviewers[rand] + " you've been nominated!"
             });
         }
     }
