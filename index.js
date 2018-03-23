@@ -12,7 +12,12 @@ app.post('/random-reviewer', function (request, response) {
     } else {
         response.status(200);
 
-        let components = request.body.text.split(",");
+        let text = request.body.text;
+        if(text.startsWith("[") && text.endsWith("]")) {
+            text = text.substring(1, text.length-1);
+        }
+
+        let components = text.split(",");
         if(components.length === 0) {
             response.send("You didn't specify any names!");
         } else if(components.length === 1){
