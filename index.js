@@ -7,8 +7,8 @@ app.use(bodyParser.json());
 
 app.post('/random-reviewer', function (request, response) {
     if(!request.body.text) {
-        response.status(400);
-        response.send("Please specify at least one name e.g. '/random-reviewer Bob,Paul'")
+        response.status(200);
+        response.send("Please specify at least one name e.g. '/random-reviewer Bob, Paul'")
     } else {
         response.status(200);
 
