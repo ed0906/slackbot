@@ -6,22 +6,28 @@ app.use(bodyParser.urlencoded({extended: false}));
 app.use(bodyParser.json());
 
 app.post('/random-reviewer', function (request, response) {
-    response.status(200);
-    response.send({
-        "body": request.body
-    });
+    if(!request.body.text) {
+        response.status(400);
+        response.send("Please specify at least one name e.g. '/random-reviewer Bob,Paul'")
+    } else {
+        response.status(200);
+
+        let components = request.body.text.split(",");
+        if(components.length === 0) {
+            response.send("You didn't specify any names!");
+        } else if(components.length === 1){
+            response.send("Picking: " + components[0] + ". Although they didn't have much choice!")
+        } else {
+            let rand = Math.floor(Math.random() * components.length);
+            response.send("Picking: " + components[rand]);
+        }
+    }
+
 });
 
 app.use(express.static("public"));
 app.get('/', function (req, res) {
-    try {
-        res.sendFile('../public/index.html', {root: __dirname});
-    } catch (err) {
-        res.status(400);
-        res.send({
-            "error": "Could not access resource"
-        });
-    }
+    res.send("Try POST '/random-reviewer' {'text':'Bob,Paul'}");
 });
 
 // Health Check
