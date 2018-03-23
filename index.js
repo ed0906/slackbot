@@ -16,10 +16,10 @@ app.post('/random-reviewer', function (request, response) {
         if(components.length === 0) {
             response.send("You didn't specify any names!");
         } else if(components.length === 1){
-            response.send("Picking: " + components[0] + ". Although they didn't have much choice!")
+            response.send("Picking: " + components[0].trim() + ". Although they didn't have much choice!")
         } else {
             let rand = Math.floor(Math.random() * components.length);
-            response.send("Picking: " + components[rand]);
+            response.send("Picking: " + components[rand].trim());
         }
     }
 
