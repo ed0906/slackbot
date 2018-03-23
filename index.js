@@ -19,6 +19,13 @@ app.post('/random-reviewer', function (request, response) {
         if(text.startsWith("[") && text.endsWith("]")) {
             text = text.substring(1, text.length-1);
         }
+        if(text === "help") {
+            response.send({
+                response_type: "ephemeral",
+                text: "Try: '/random-reviewer Bob, Paul' It picks a name at random and for various complicated legal reasons they HAVE to do the review."
+            });
+            return;
+        }
 
         let components = text.split(",").map(c => c.trim());
         console.log(components);
