@@ -9,6 +9,7 @@ app.post('/random-reviewer', function (request, response) {
     if(!request.body.text) {
         response.status(200);
         response.send({
+            response_type: "ephemeral",
             text: "You didn't specify any names! Try: '/random-reviewer Bob, Paul'"
         })
     } else {
@@ -20,20 +21,28 @@ app.post('/random-reviewer', function (request, response) {
         }
 
         let components = text.split(",");
-        if(components.length === 0) {
+        let reviewers = Array.from(new Set(components));
+
+        if(components.length !== reviewers.length) {
             response.send({
+                response_type: "ephemeral",
+                text: "Nice try, you cant nominate someone twice that's unfair..."
+            });
+        } else if(reviewers.length === 0) {
+            response.send({
+                response_type: "ephemeral",
                 text: "You didn't specify any names!"
             });
-        } else if(components.length === 1){
+        } else if(reviewers.length === 1){
             response.send({
                 response_type: "in_channel",
-                text: components[0].trim() + " you've been nominated!"
+                text: reviewers[0].trim() + " you've been nominated!"
             })
         } else {
-            let rand = Math.floor(Math.random() * components.length);
+            let rand = Math.floor(Math.random() * reviewers.length);
             response.send({
                 response_type: "in_channel",
-                text: components[rand].trim() + " you've been nominated!"
+                text: reviewers[rand].trim() + " you've been nominated!"
             });
         }
     }
