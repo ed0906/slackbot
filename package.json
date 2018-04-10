@@ -2,9 +2,9 @@
   "name": "slack-random-reviewer",
   "version": "1.0.0",
   "description": "Slack Random Reviewer",
-  "main": "src/index.js",
+  "main": "src/index-express.js",
   "scripts": {
-    "start": "node src/index.js",
+    "start": "node src/index-express.js",
     "test": "mocha"
   },
   "repository": {
