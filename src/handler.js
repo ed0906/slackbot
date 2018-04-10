@@ -24,6 +24,16 @@ function handler(payload, callback) {
             return;
         }
 
+        let info = null;
+        if(text.indexOf(" for ")){
+            let parts = text.split(" for ").map(c => c.trim());
+            info = parts[1];
+            if(info && info.length>1 && !info.startsWith("http")  && !info.startsWith("www")) {
+                info = info.charAt(0).toUpperCase() + info.slice(1)
+            }
+            text = parts[0];
+        }
+
         let components = splitter(text);
         console.log(components);
         let reviewers = Array.from(new Set(components));
@@ -53,7 +63,7 @@ function handler(payload, callback) {
 
             callback(null, {
                 response_type: "in_channel",
-                text: random(reviewers) + " " + random(nominations),
+                text: random(reviewers) + " " + random(nominations) + (info === null ? "" : " (" + info + ")"),
                 selection: reviewers
             });
         }
