@@ -60,10 +60,13 @@ function handler(payload, callback) {
                 "you've been empowered with this review!",
                 "congratulations it's yours!"
             ];
-
+            let output = random(reviewers) + " " + random(nominations);
+            if(info !== undefined) {
+                output += " (" + info + ")"
+            }
             callback(null, {
                 response_type: "in_channel",
-                text: random(reviewers) + " " + random(nominations) + (info === null ? "" : " (" + info + ")"),
+                text:  output,
                 selection: reviewers
             });
         }

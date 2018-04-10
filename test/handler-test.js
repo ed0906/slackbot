@@ -110,6 +110,16 @@ describe("Handler", function () {
         })
     });
 
+    it("Should Handle no 'for' extension", function () {
+        // When
+        handler({text: "User1, User2"}, function(err, body) {
+            expect(err).to.equal(null);
+            expect(body.response_type).to.equal("in_channel");
+            expect(body.text).not.to.contain("(");
+            expect(body.text).not.to.contain(")");
+        })
+    });
+
     it("Should Handle empty 'for' extension", function () {
         // When
         handler({text: "User1, User2 for"}, function(err, body) {
