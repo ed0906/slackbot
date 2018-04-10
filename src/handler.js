@@ -1,5 +1,15 @@
 let splitter = require("./splitter");
 
+let nominations = [
+    "you've been nominated!",
+    "it's your turn!",
+    "you've been empowered with this review!",
+    "congratulations it's yours!",
+    "it's your lucky day!",
+    "go smash it!",
+    "review time!"
+];
+
 function random(array) {
     let rand = Math.floor(Math.random() * array.length);
     return array[rand];
@@ -54,12 +64,6 @@ function handler(payload, callback) {
                 text: "That's not very democratic of you, give someone else a chance!"
             })
         } else {
-            let nominations = [
-                "you've been nominated!",
-                "it's your turn!",
-                "you've been empowered with this review!",
-                "congratulations it's yours!"
-            ];
             let output = random(reviewers) + " " + random(nominations);
             if(info !== undefined) {
                 output += " (" + info + ")"
