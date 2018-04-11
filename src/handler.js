@@ -7,7 +7,9 @@ let nominations = [
     "congratulations it's yours!",
     "it's your lucky day!",
     "go smash it!",
-    "review time!"
+    "review time!",
+    "the power is in your hands!",
+    "roses are red, violets are blue, it's your lucky day, this review is for you!"
 ];
 
 function random(array) {
@@ -87,7 +89,9 @@ function handler(payload, callback) {
                 response_type: "in_channel",
                 text:  output,
                 selection: reviewers,
-                selected: selectedUser
+                selected: selectedUser,
+                channel_id: payload.channel_id,
+                user_id: payload.user_id
             });
         }
     }
