@@ -17,15 +17,15 @@ function random(array) {
     return array[rand];
 }
 
-let lastUser = null;
+let lastUser = {};
 
-function selectNewReviewer(reviewers) {
+function selectNewReviewer(channel_id, reviewers) {
     let selectedUser;
     do {
         selectedUser = random(reviewers);
     }
-    while (selectedUser === lastUser);
-    lastUser = selectedUser;
+    while (selectedUser === lastUser[channel_id]);
+    lastUser[channel_id] = selectedUser;
     return selectedUser;
 }
 
@@ -79,7 +79,7 @@ function handler(payload, callback) {
             })
         } else {
             // Select a different user to last time
-            let selectedUser = selectNewReviewer(reviewers);
+            let selectedUser = selectNewReviewer(payload.channel_id, reviewers);
 
             let output = selectedUser + " " + random(nominations);
             if(info !== undefined) {

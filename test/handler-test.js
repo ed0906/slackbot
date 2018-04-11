@@ -151,7 +151,7 @@ describe("Handler", function () {
         });
     });
 
-    it("Should pick a new reviewer each time", function () {
+    it("Should pick a new reviewer each time with null channel_id", function () {
         // Given
         let payload = {text: "User1, User2 for http://link.com"};
 
@@ -163,5 +163,22 @@ describe("Handler", function () {
                 expect(selected1).not.to.equal(selected2);
             })
         });
-    })
+    });
+
+    it("Should pick a new reviewer each time with populated channel_id", function () {
+        // Given
+        let payload = {
+            text: "User1, User2 for http://link.com",
+            channel_id: "C123"
+        };
+
+        // When
+        handler(payload, function(err, body) {
+            let selected1 = body.selected;
+            handler(payload, function (err, body) {
+                let selected2 = body.selected;
+                expect(selected1).not.to.equal(selected2);
+            })
+        });
+    });
 });
