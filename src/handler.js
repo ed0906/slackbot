@@ -8,8 +8,7 @@ let nominations = [
     "it's your lucky day!",
     "go smash it!",
     "review time!",
-    "the power is in your hands!",
-    "roses are red, violets are blue, it's your lucky day, this review is for you!"
+    "the power is in your hands!"
 ];
 
 function random(array) {
