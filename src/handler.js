@@ -15,6 +15,18 @@ function random(array) {
     return array[rand];
 }
 
+let lastUser = null;
+
+function selectNewReviewer(reviewers) {
+    let selectedUser;
+    do {
+        selectedUser = random(reviewers);
+    }
+    while (selectedUser === lastUser);
+    lastUser = selectedUser;
+    return selectedUser;
+}
+
 function handler(payload, callback) {
     if(!payload.text) {
         callback(null, {
@@ -64,14 +76,18 @@ function handler(payload, callback) {
                 text: "That's not very democratic of you, give someone else a chance!"
             })
         } else {
-            let output = random(reviewers) + " " + random(nominations);
+            // Select a different user to last time
+            let selectedUser = selectNewReviewer(reviewers);
+
+            let output = selectedUser + " " + random(nominations);
             if(info !== undefined) {
                 output += " (" + info + ")"
             }
             callback(null, {
                 response_type: "in_channel",
                 text:  output,
-                selection: reviewers
+                selection: reviewers,
+                selected: selectedUser
             });
         }
     }

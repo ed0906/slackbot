@@ -150,4 +150,18 @@ describe("Handler", function () {
             expect(body.text).to.contain(" (www.link.com");
         });
     });
+
+    it("Should pick a new reviewer each time", function () {
+        // Given
+        let payload = {text: "User1, User2 for http://link.com"};
+
+        // When
+        handler(payload, function(err, body) {
+            let selected1 = body.selected;
+            handler(payload, function (err, body) {
+                let selected2 = body.selected;
+                expect(selected1).not.to.equal(selected2);
+            })
+        });
+    })
 });
