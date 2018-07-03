@@ -32,6 +32,15 @@ Note: `for` and the text following it is optional
 
 #### Usage
 
+The API expects a payload in the form
+```
+{ 
+  "text": "{user list} for {link/info}",
+  "user_id": "(Optional) ID of the slack user who used the command e.g. 'U12345'",
+  "channel_id": "(Optional) ID of the slack channel the command was used in"
+}
+```
+
 Try `POST http://localhost:8306/random-reviewer`
 With body:
 
