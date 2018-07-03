@@ -19,11 +19,8 @@ function random(array) {
 let lastUser = {};
 
 function selectNewReviewer(channel_id, reviewers) {
-    let selectedUser;
-    do {
-        selectedUser = random(reviewers);
-    }
-    while (selectedUser === lastUser[channel_id]);
+    let available = reviewers.filter(r => r !== lastUser[channel_id]);
+    let selectedUser = random(available);
     lastUser[channel_id] = selectedUser;
     return selectedUser;
 }
