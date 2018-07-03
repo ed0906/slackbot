@@ -61,7 +61,13 @@ function handler(payload, callback) {
         console.log(components);
         let reviewers = Array.from(new Set(components));
 
-        if(components.length !== reviewers.length) {
+
+        if(reviewers.some(r => r.includes(payload.user_id))) {
+            callback(null, {
+                response_type: "ephemeral",
+                text: "You can't nominate yourself!"
+            });
+        } else if(components.length !== reviewers.length) {
             callback(null, {
                 response_type: "ephemeral",
                 text: "Nice try, you cant nominate someone twice that's unfair..."

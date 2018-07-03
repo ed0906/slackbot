@@ -11,6 +11,7 @@ describe("Handler", function () {
             expect(body.text).to.contain("You didn't specify any names!");
         })
     });
+
     it("Should handle bad object input", function () {
         // When
         handler({}, function(err, body) {
@@ -85,19 +86,28 @@ describe("Handler", function () {
 
     it("Should Handle slack users", function () {
         // When
-        handler({text: "<@1|user1><@2|user2>"}, function(err, body) {
+        handler({text: "<@U1><@U2>"}, function(err, body) {
             expect(err).to.equal(null);
             expect(body.response_type).to.equal("in_channel");
-            expect(body.selection).to.have.members(["<@1|user1>","<@2|user2>"]);
+            expect(body.selection).to.have.members(["<@U1>","<@U2>"]);
+        })
+    });
+
+    it("Should Handle self nomination", function () {
+        // When
+        handler({text: "<@U1><@2U2>", user_id: 'U1'}, function(err, body) {
+            expect(err).to.equal(null);
+            expect(body.response_type).to.equal("ephemeral");
+            expect(body.text).to.contain("You can't nominate yourself!");
         })
     });
 
     it("Should Handle mixture of split types", function () {
         // When
-        handler({text: "User1, User2,User3 User4<@123|user>"}, function(err, body) {
+        handler({text: "User1, User2,User3 User4<@U5>"}, function(err, body) {
             expect(err).to.equal(null);
             expect(body.response_type).to.equal("in_channel");
-            expect(body.selection).to.have.members(["User1", "User2", "User3", "User4","<@123|user>"]);
+            expect(body.selection).to.have.members(["User1", "User2", "User3", "User4","<@U5>"]);
         })
     });
 
