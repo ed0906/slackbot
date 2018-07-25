@@ -93,6 +93,15 @@ describe("Handler", function () {
         })
     });
 
+    it("Should Handle incomplete nomination", function () {
+        // When
+        handler({text: "<@U1>@abc"}, function(err, body) {
+            expect(err).to.equal(null);
+            expect(body.response_type).to.equal("ephemeral");
+            expect(body.text).to.contain("Did you finish your nomination? @abc doesn't seem like a name.");
+        })
+    });
+
     it("Should Handle self nomination", function () {
         // When
         handler({text: "<@U1><@2U2>", user_id: 'U1'}, function(err, body) {

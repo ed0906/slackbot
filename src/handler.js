@@ -79,6 +79,12 @@ function handler(payload, callback) {
                 response_type: "ephemeral",
                 text: "That's not very democratic of you, give someone else a chance!"
             })
+        } else if(reviewers.some(r => /^@.+$/.test(r))) {
+            let matches = reviewers.filter(r => r.match(/^@.+$/))[0];
+            callback(null, {
+                response_type: "ephemeral",
+                text: "Did you finish your nomination? " + matches +" doesn't seem like a name."
+            })
         } else {
             // Select a different user to last time
             let selectedUser = selectNewReviewer(payload.channel_id, reviewers);
