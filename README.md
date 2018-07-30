@@ -60,10 +60,10 @@ There is a Swagger spec for this project in the aws directory.
 - Import the swagger spec into API Gateway.
 - Deploy your api to a stage called `prod`.
 - Create a [slack slash command](https://api.slack.com/slash-commands#creating_commands) and point it at your API Gateway endpoint.
-    e.g: https://{{rest-api-id}}.execute-api.{{region}}.amazonaws.com/prod/random-reviewer
+    e.g: `https://{{rest-api-id}}.execute-api.{{region}}.amazonaws.com/prod/random-reviewer`
 
 #### Heroku
 
 - Push this repo to Heroku (there's already a Procfile)
 - Create a [slack slash command](https://api.slack.com/slash-commands#creating_commands) and point it at your Heroku endpoint.
-    e.g: https://{{app-name}}.herokuapp.com/random-reviewer
+    e.g: `https://{{app-name}}.herokuapp.com/random-reviewer`
