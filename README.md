@@ -49,3 +49,14 @@ With body:
   "text": "User1, User2 for http://link.com"
 }
 ```
+
+#### AWS
+
+There is a Swagger spec for this project in the aws directory. 
+
+- Create a Lambda function using `index-lambda.js` as the entry point. You will also need to add `splitter.js` and `handler.js`.
+- Deploy your lambda function and change the swagger `x-amazon-apigateway-integration` URI to point at your lambda.
+- Change `{{api-id}}` to be the ID of your REST API.
+- Import the swagger spec into API Gateway.
+- Deploy your api to a stage called `prod`.
+- Create a [slack slash command](https://api.slack.com/slash-commands#creating_commands) and point it at your API Gateway endpoint.
