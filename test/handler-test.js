@@ -170,6 +170,38 @@ describe("Handler", function () {
         });
     });
 
+    it("Should Handle 2 'multiple' nominations", function () {
+        // When
+        handler({text: "User1, User2, User3 x2"}, function(err, body) {
+            expect(err).to.equal(null);
+            expect(body.response_type).to.equal("in_channel");
+            expect(body.text).to.contain(", ");
+        });
+    });
+
+    it("Should Handle >2 'multiple' nominations", function () {
+        // When
+        handler({text: "User1, User2, User3, User4 x2"}, function(err, body) {
+            expect(err).to.equal(null);
+            expect(body.response_type).to.equal("in_channel");
+            expect(body.text).to.contain(", ");
+        });
+    });
+
+    it("Should Handle invalid 'multiple' nomination", function () {
+        // When
+        handler({text: "User1, User2 x2"}, function(err, body) {
+            expect(err).to.equal(null);
+            expect(body.response_type).to.equal("ephemeral");
+            expect(body.text).to.contain("You need more than 2 candidates for 2 nominations!");
+        });
+        handler({text: "User1, User2 x0"}, function(err, body) {
+            expect(err).to.equal(null);
+            expect(body.response_type).to.equal("ephemeral");
+            expect(body.text).to.contain("Alright clever clogs, you know you can't nominate 0 people");
+        });
+    });
+
     it("Should pick a new reviewer each time with null channel_id", function () {
         // Given
         let payload = {text: "User1, User2 for http://link.com"};
@@ -198,6 +230,16 @@ describe("Handler", function () {
                 let selected2 = body.selected;
                 expect(selected1).not.to.equal(selected2);
             })
+        });
+    });
+
+    it("Acceptance", function () {
+        // When
+        handler({text: "User1, User2<@User3> x2 for http://link.com"}, function(err, body) {
+            expect(err).to.equal(null);
+            expect(body.response_type).to.equal("in_channel");
+            expect(body.text).to.contain(" (http://link.com");
+            expect(body.text).to.contain(", ");
         });
     });
 });

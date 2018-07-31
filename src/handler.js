@@ -54,6 +54,14 @@ function handler(payload, callback) {
             text = parts[0];
         }
 
+        let multi = /^.*\s[xX](\d+)$/.exec(text);
+        let count = 1;
+        if(multi !== null && multi.length === 2) {
+            let searchValue = " X" + multi[1];
+            text = text.replace(" x" + multi[1], "").replace(searchValue, "").trim();
+            count = parseInt(multi[1]);
+        }
+
         let components = splitter(text);
         console.log(components);
         let reviewers = Array.from(new Set(components));
@@ -85,11 +93,22 @@ function handler(payload, callback) {
                 response_type: "ephemeral",
                 text: "Did you finish your nomination? " + matches +" doesn't seem like a name."
             })
+        } else if(count < 1 || isNaN(count)) {
+            callback(null, {
+                response_type: "ephemeral",
+                text: "Alright clever clogs, you know you can't nominate " + multi[1] + " people..."
+            })
+        } else if(count >= reviewers.length) {
+            callback(null, {
+                response_type: "ephemeral",
+                text: "You need more than " + reviewers.length + " candidates for " + count + " nominations!"
+            })
         } else {
             // Select a different user to last time
-            let selectedUser = selectNewReviewer(payload.channel_id, reviewers);
+            let selectedUsers = [...Array(count).keys()]
+                .map(() => selectNewReviewer(payload.channel_id, reviewers));
 
-            let output = selectedUser + " " + random(nominations);
+            let output = selectedUsers.join(", ") + " " + random(nominations);
             if(info !== undefined) {
                 output += " (" + info + ")"
             }
@@ -97,7 +116,7 @@ function handler(payload, callback) {
                 response_type: "in_channel",
                 text:  output,
                 selection: reviewers,
-                selected: selectedUser,
+                selected: selectedUsers,
                 channel_id: payload.channel_id,
                 user_id: payload.user_id
             });

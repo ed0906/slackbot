@@ -4,21 +4,27 @@ A slack slash command for nominating a reviewer for a code review.
 
 ##### General Form:
 
-`/random-reviewer {list of names/slack usernames seperated by a comma or space or nothing for slack usernames} for {link or extra info}`
+`/random-reviewer {list of names/slack usernames seperated by a comma or space or nothing for slack usernames} x{number of reviewers to select} for {link or extra info}`
+
+Note: `x{number of reviewers to select}` is optional 
 
 Note: `for` and the text following it is optional
 
 ##### Examples:
 
-`/random-reviewer Bob John Fred`: No need to use slack usernames if you dont want to.
+`/random-reviewer Bob John Fred`: No need to use slack usernames if you don't want to.
 
 `/random-reviewer @Bob, @John, @Fred`: You can use slack usernames if you want them to be alerted to their nomination.
 
 `/random-reviewer @Bob, John Fred`: You can mix and match too. Mix and match the separator (comma or space) as well if you desire.
 
-`/random-reviewer Bob John Fred for http://link.com`: You can append a link to the review using `for`
+`/rangom-reviewer Bon, John, Fred x2`: You can nominate more than one reviewer if you like.
+
+`/random-reviewer Bob John Fred for http://link.com`: You can append a link to the review using `for`.
 
 `/random-reviewer Bob John Fred for A super empowering review!!`: It doesn't have to be a link either.
+
+`/random-reviewer Bob John Fred x2 for The best review today!!`: You can use the counter and `for` together.
 
 
 #### Install
@@ -35,7 +41,7 @@ Note: `for` and the text following it is optional
 The API expects a payload in the form
 ```
 { 
-  "text": "{user list} for {link/info}",
+  "text": "{user list} x{count} for {link/info}",
   "user_id": "(Optional) ID of the slack user who used the command e.g. 'U12345'",
   "channel_id": "(Optional) ID of the slack channel the command was used in"
 }
