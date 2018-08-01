@@ -26,7 +26,7 @@ function selectNewReviewer(channel_id, reviewers) {
 }
 
 function handler(payload, callback) {
-    if(!payload.text) {
+    if(payload === null || payload.text === null || !payload.text) {
         callback(null, {
             response_type: "ephemeral",
             text: "You didn't specify any names! Try: '/random-reviewer Bob, Paul'"

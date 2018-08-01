@@ -5,16 +5,31 @@ describe("Handler", function () {
 
     it("Should handle bad input", function () {
         // When
+        handler(null, function(err, body) {
+            expect(err).to.equal(null);
+            expect(body.response_type).to.equal("ephemeral");
+            expect(body.text).to.contain("You didn't specify any names!");
+        });
         handler("", function(err, body) {
             expect(err).to.equal(null);
             expect(body.response_type).to.equal("ephemeral");
             expect(body.text).to.contain("You didn't specify any names!");
-        })
+        });
+        handler(" ", function(err, body) {
+            expect(err).to.equal(null);
+            expect(body.response_type).to.equal("ephemeral");
+            expect(body.text).to.contain("You didn't specify any names!");
+        });
     });
 
     it("Should handle bad object input", function () {
         // When
         handler({}, function(err, body) {
+            expect(err).to.equal(null);
+            expect(body.response_type).to.equal("ephemeral");
+            expect(body.text).to.contain("You didn't specify any names!");
+        });
+        handler({text: null}, function(err, body) {
             expect(err).to.equal(null);
             expect(body.response_type).to.equal("ephemeral");
             expect(body.text).to.contain("You didn't specify any names!");
